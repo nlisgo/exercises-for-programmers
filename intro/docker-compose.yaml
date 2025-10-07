@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Default interactive service - prompts user for input
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stdin_open: true    # Keep STDIN open (-i flag)
+    tty: true          # Allocate a pseudo-TTY (-t flag)
+
+  # Interactive service with profile - prompts user for input
+  tip-calculator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tip-calculator-interactive
+    stdin_open: true    # Keep STDIN open (-i flag)
+    tty: true          # Allocate a pseudo-TTY (-t flag)
+    profiles:
+      - interactive
+
+  # Non-interactive version with predefined arguments
+  tip-calculator-batch:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tip-calculator-batch
+    command: ["-b", "100", "-p", "18"]
+    profiles:
+      - batch
